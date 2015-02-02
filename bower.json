@@ -1,0 +1,21 @@
+{
+  "name": "the_quick_brown_fox",
+  "version": "0.0.0",
+  "homepage": "https://github.com/klappradla/the_quick_brown_fox",
+  "authors": [
+    "Max Mulatz <klappradla@gmail.com>"
+  ],
+  "main": "app/index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "raphael": "~2.1.3"
+  }
+}

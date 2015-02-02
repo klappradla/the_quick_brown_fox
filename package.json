@@ -1,0 +1,22 @@
+{
+  "name": "the_quick_brown_fox",
+  "version": "1.0.0",
+  "description": "small typography game to recap RaphaelJS",
+  "main": "app/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klappradla/the_quick_brown_fox.git"
+  },
+  "author": "Max Mulatz <klappradla@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/klappradla/the_quick_brown_fox/issues"
+  },
+  "homepage": "https://github.com/klappradla/the_quick_brown_fox",
+  "devDependencies": {
+    "bower": "^1.3.12"
+  }
+}
