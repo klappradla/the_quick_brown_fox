@@ -44,8 +44,10 @@ Placeholder.prototype._buildClick = function () {
 
 
 Word = function(text, canvas) {
+	console.log(text.length);
 	this.solved = false;
 	this.canvas = canvas;
+	text = text.replace(" ",'\u00a0');
 	this.text = text;
 	this.elements = this.canvas.page.set();
 	this.render();
@@ -53,7 +55,7 @@ Word = function(text, canvas) {
 
 Word.prototype.render = function () {
 	var x = 100;
-	var y = 100;
+	var y = 200;
 	var currentChar;
 	var currentElement;
 	var element;
@@ -61,6 +63,7 @@ Word.prototype.render = function () {
 
 	for (var i = 0; i < this.text.length; i++) {
 		currentChar = this.text.charAt(i);
+		console.log("char: " + currentChar);
 		if (currentChar === 'i' && !this.solved) {
 			element = new Placeholder(this, 'i', this.canvas);
 		} else {
@@ -79,9 +82,5 @@ Word.prototype.rerender = function () {
 	this.solved = true;
 	this.elements.remove();
 	this.elements = this.canvas.page.set();
-	// this.elements.forEach(function (e) {
-	// 	console.log(e);
-	// 	e.remove();
-	// });
 	this.render();
 }

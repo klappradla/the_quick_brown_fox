@@ -2,7 +2,8 @@ var app = {
 	
 	init: function () {
 		var playground = new Playground();
-		var word = new Word("quick", playground.canvas);
+		var whitespace = "\u00a0";
+		var word = new Word("quick fox", playground.canvas);
 		//var testLetter = new Letter('m', playground.canvas);
 
 		// var x = 0, y = 0;
