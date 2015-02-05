@@ -1,5 +1,5 @@
-Item = function (parent) {
-	this.char = parent.char;
+Item = function (char, parent) {
+	this.char = char;
 	this.parent = parent;
 	//this.font = font;
 	this.paper = parent.paper;
@@ -50,7 +50,7 @@ Item.prototype._makeDraggable = function (elements) {
 }
 
 Item.prototype._checkCollision = function () {
-	var that = this;
+	//var that = this;
 	var pBox = this.parent.elements.getBBox();
 	var iBox = this.elements.getBBox();
 	var center = {};
@@ -59,9 +59,8 @@ Item.prototype._checkCollision = function () {
 
 	if (center.x > pBox.x && center.x < pBox.x2) {
 		if (center.y > pBox.y && center.y < pBox.y2) {
-			console.log("collide");
-			that.elements.remove();
-			that.parent.solve();
+			this.elements.remove();
+			this.parent.solve();
 		}
 	}
 }

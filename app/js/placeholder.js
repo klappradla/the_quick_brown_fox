@@ -1,46 +1,35 @@
-Placeholder = function (char, pos, parent) {
-	this.solved = false;
+Placeholder = function (index, pos, parent) {
 	this.parent = parent;
 	this.paper = parent.paper;
-	this.char = char;
+	this.index = index;
 	this.pos = {};
 	this.pos.x = pos.x;
 	this.pos.y = pos.y;
-	this.elements = this._render();
+	this.elements = this.paper.set();
+	
+	this._render(this.pos);
 
-	this.item;
+	//this.item;
 }
 
-Placeholder.prototype._render = function () {
-	var elements = this.paper.set();
-	elements.push(this.paper.circle(this.pos.x + 30, this.pos.y, 30)
+Placeholder.prototype._render = function (pos) {
+	this.elements.push(this.paper.circle(pos.x + 30, pos.y, 30)
 		.attr({fill: 'none', stroke: 'cyan'}));
-	elements.push(this.paper.circle(this.pos.x + 30, this.pos.y, 30)
+	this.elements.push(this.paper.circle(pos.x + 30, pos.y, 30)
 			.attr({fill: 'cyan', stroke: 'none', opacity: 0.1}));
 
-	return this._renderClick(elements);
-}
-
-Placeholder.prototype._renderClick = function (set) {
-	var that = this;
-	set.click(function () {
-		that._bigEvent(set);
-	});
-	return set;
+	this.renderItem();
 }
 
 Placeholder.prototype.renderItem = function () {
-	this.item = new Item(this);
+	var char = this.parent.text.charAt(this.index);
+	this.item = new Item(char, this);
 }
 
 Placeholder.prototype.solve = function () {
-	console.log("solve placeholder -> rerender word");
-	this.solved = true;
+	var pIndex = this.parent.placeholder.indexOf(this.index);
+	this.parent.placeholder.splice(pIndex, 1);
 	this.elements.remove();
-	this.parent.refresh();
-}
-
-Placeholder.prototype._bigEvent = function (elements) {
-	elements.remove();
+	this.parent._render();
 }
 
