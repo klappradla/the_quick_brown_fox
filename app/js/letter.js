@@ -1,6 +1,6 @@
 Letter = function (char, paper, pos) {
 	this.paper = paper;
-	return this._render(char, pos);
+	this.elements = this._render(char, pos);
 }
 
 Letter.prototype._render = function (char, pos) {

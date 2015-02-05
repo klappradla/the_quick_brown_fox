@@ -19,18 +19,27 @@ Word.prototype._render = function () {
 	pos.x = 100;
 	pos.y = 200;
 	var currentChar;
-	var element;
+	var component;
 
 	for (var i = 0; i < this.text.length; i++) {
 		currentChar = this.text.charAt(i);
 		if (currentChar === 'i' && !this.solved) {
-			element = new Placeholder('i', this.paper, pos);
-			this.placeholders.push(element);
+			component = new Placeholder('i', this.paper, pos);
+			this.placeholders.push(component);
 		} else {
-			element = new Letter(currentChar, this.paper, pos);
+			component = new Letter(currentChar, this.paper, pos);
 		}
-		pos.x += element.getBBox().width;
+		pos.x += component.elements.getBBox().width;
 	}
+
+	this._renderTypeItems();
+}
+
+Word.prototype._renderTypeItems = function () {
+	this.placeholders.forEach(function (placeholder) {
+		placeholder.renderItem();
+		//console.log(placeholder);
+	});
 }
 
 
