@@ -1,9 +1,11 @@
 var app = {
 	
 	init: function () {
-		var playground = new Playground();
-		var whitespace = "\u00a0";
-		var word = new Word("quick fox", playground.canvas);
+		var game = new Game();
+		game.init();
+
+		//var whitespace = "\u00a0";
+		//var word = new Word("quick fox", game.paper);
 		//var testLetter = new Letter('m', playground.canvas);
 
 		// var x = 0, y = 0;
