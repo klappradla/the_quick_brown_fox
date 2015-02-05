@@ -2,7 +2,7 @@ Word = function (text, placeholder, paper) {
 	this.paper = paper;
 	this.placeholder = this._encodePlaceholder(text, placeholder);
 	this.text = this._encodeWhitespace(text);
-	this.elements = paper.set();
+	this.elements = [];
 
 	this._render();
 }
@@ -26,9 +26,6 @@ Word.prototype._encodePlaceholder = function (text, chars) {
 }
 
 Word.prototype._render = function () {
-
-	// todo: reuse items...
-	this.elements.remove();
 	var pos = {};
 	pos.x = 100;
 	pos.y = 200;
@@ -38,11 +35,28 @@ Word.prototype._render = function () {
 	for (var i = 0; i < this.text.length; i++) {
 		char = this.text.charAt(i);
 		if (this.placeholder.indexOf(i) > -1) {
-			component = new Placeholder(i, pos, this);
+			component = new Placeholder(i, this);
+			component.render(pos);
+			component.renderItem(pos);
 		} else {
-			component = new Letter(char, pos, this.paper);
+			component = new Letter(char, this.paper);
+			component.render(pos);
 		}
-		this.elements.push(component.elements);
+		this.elements.push(component);
+		component.render(pos);
 		pos.x += component.elements.getBBox().width;
 	}
+}
+
+Word.prototype.refresh = function (index) {
+	this.elements[index] = new Letter(this.text.charAt(index), this.paper);
+	var pos = {};
+	pos.x = 100;
+	pos.y = 200;
+	this.elements.forEach(function (element) {
+		element.elements.remove();
+		element.render(pos);
+		pos.x += element.elements.getBBox().width;
+	});
+
 }

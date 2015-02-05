@@ -1,35 +1,26 @@
-Placeholder = function (index, pos, parent) {
+Placeholder = function (index, parent) {
 	this.parent = parent;
 	this.paper = parent.paper;
 	this.index = index;
-	this.pos = {};
-	this.pos.x = pos.x;
-	this.pos.y = pos.y;
 	this.elements = this.paper.set();
-	
-	this._render(this.pos);
-
 	//this.item;
 }
 
-Placeholder.prototype._render = function (pos) {
+Placeholder.prototype.render = function (pos) {
 	this.elements.push(this.paper.circle(pos.x + 30, pos.y, 30)
 		.attr({fill: 'none', stroke: 'cyan'}));
 	this.elements.push(this.paper.circle(pos.x + 30, pos.y, 30)
 			.attr({fill: 'cyan', stroke: 'none', opacity: 0.1}));
-
-	this.renderItem();
 }
 
-Placeholder.prototype.renderItem = function () {
+Placeholder.prototype.renderItem = function (pos) {
 	var char = this.parent.text.charAt(this.index);
 	this.item = new Item(char, this);
+	this.item.render(pos);
 }
 
 Placeholder.prototype.solve = function () {
-	var pIndex = this.parent.placeholder.indexOf(this.index);
-	this.parent.placeholder.splice(pIndex, 1);
 	this.elements.remove();
-	this.parent._render();
+	this.parent.refresh(this.index); // index in elements array
 }
 

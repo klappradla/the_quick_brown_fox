@@ -1,18 +1,13 @@
-Letter = function (char, pos, paper) {
+Letter = function (char, paper) {
 	this.char = char;
-	this.pos = {};
-	this.pos.x = pos.x;
-	this.pos.y = pos.y;
 	this.paper = paper;
-	this.elements = this._render(this.pos);
+	this.elements = this.paper.set();
 }
 
-Letter.prototype._render = function (pos) {
-	var set = this.paper.set();
-	set.push(this.paper.text(pos.x, pos.y, this.char)
+Letter.prototype.render = function (pos) {
+	this.elements.push(this.paper.text(pos.x, pos.y, this.char)
 		.attr({fill: 'cyan',
 				'text-anchor': 'start',
 				'font-size': 80})
 	);
-	return set;
 }
