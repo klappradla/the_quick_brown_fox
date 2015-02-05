@@ -1,5 +1,6 @@
 Item = function (parent) {
 	this.char = parent.char;
+	this.parent = parent;
 	//this.font = font;
 	this.paper = parent.paper;
 	this.pos = parent.pos;
@@ -21,6 +22,8 @@ Item.prototype._renderElements = function () {
 }
 
 Item.prototype._makeDraggable = function (elements) {
+	//console.log(elements);
+	var that = this;
 	var lx = 0;
 	var ly = 0;
 	var ox = 0;
@@ -39,7 +42,21 @@ Item.prototype._makeDraggable = function (elements) {
 			elements.attr({opacity: 1});
 			ox = lx;
 			oy = ly
+			that._checkCollision();
 		}
 	);
+}
 
+Item.prototype._checkCollision = function () {
+	var pBox = this.parent.elements.getBBox();
+	var iBox = this.elements.getBBox();
+	var center = {};
+	center.x = iBox.x + iBox.width / 2;
+	center.y = iBox.y + iBox.height / 2;
+
+	if (center.x > pBox.x && center.x < pBox.x2) {
+		if (center.y > pBox.y && center.y < pBox.y2) {
+			console.log("collide");
+		}
+	}
 }
