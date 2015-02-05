@@ -3,7 +3,9 @@ Item = function (parent) {
 	this.parent = parent;
 	//this.font = font;
 	this.paper = parent.paper;
-	this.pos = parent.pos;
+	this.pos = {};
+	this.pos.x = parent.pos.x;
+	this.pos.y = parent.pos.y;
 	this.elements = this._renderElements();
 	//placeholder = placeholder || false;
 }
@@ -48,6 +50,7 @@ Item.prototype._makeDraggable = function (elements) {
 }
 
 Item.prototype._checkCollision = function () {
+	var that = this;
 	var pBox = this.parent.elements.getBBox();
 	var iBox = this.elements.getBBox();
 	var center = {};
@@ -57,6 +60,8 @@ Item.prototype._checkCollision = function () {
 	if (center.x > pBox.x && center.x < pBox.x2) {
 		if (center.y > pBox.y && center.y < pBox.y2) {
 			console.log("collide");
+			that.elements.remove();
+			that.parent.solve();
 		}
 	}
 }

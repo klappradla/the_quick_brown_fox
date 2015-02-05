@@ -1,5 +1,7 @@
-Placeholder = function (char, paper, pos) {
-	this.paper = paper;
+Placeholder = function (char, pos, parent) {
+	this.solved = false;
+	this.parent = parent;
+	this.paper = parent.paper;
 	this.char = char;
 	this.pos = {};
 	this.pos.x = pos.x;
@@ -29,6 +31,13 @@ Placeholder.prototype._renderClick = function (set) {
 
 Placeholder.prototype.renderItem = function () {
 	this.item = new Item(this);
+}
+
+Placeholder.prototype.solve = function () {
+	console.log("solve placeholder -> rerender word");
+	this.solved = true;
+	this.elements.remove();
+	this.parent.refresh();
 }
 
 Placeholder.prototype._bigEvent = function (elements) {

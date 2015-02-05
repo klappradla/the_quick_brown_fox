@@ -1,8 +1,7 @@
 Word = function (text, paper) {
-	this.solved = false;
 	this.paper = paper;
 	this.text = this._encodeWhitespace(text);
-
+	this.content = [];
 	this.placeholders = [];
 
 	this._render();
@@ -11,6 +10,7 @@ Word = function (text, paper) {
 Word.prototype.WHITESPACE = "\u00a0";
 
 Word.prototype._encodeWhitespace = function (text) {
+	console.log(Object.getPrototypeOf(this) == Word.prototype);
 	return text.replace(" ", this.WHITESPACE);
 }
 
@@ -23,12 +23,13 @@ Word.prototype._render = function () {
 
 	for (var i = 0; i < this.text.length; i++) {
 		currentChar = this.text.charAt(i);
-		if (currentChar === 'i' && !this.solved) {
-			component = new Placeholder('i', this.paper, pos);
+		if (currentChar === 'i') {
+			component = new Placeholder('i', pos, this);
 			this.placeholders.push(component);
 		} else {
 			component = new Letter(currentChar, this.paper, pos);
 		}
+		this.content.push(component);
 		pos.x += component.elements.getBBox().width;
 	}
 
@@ -40,6 +41,25 @@ Word.prototype._renderTypeItems = function () {
 		placeholder.renderItem();
 		//console.log(placeholder);
 	});
+}
+
+Word.prototype.refresh = function () {
+	var that = this;
+	this.content.forEach(function (item) {
+		item.elements.remove();
+		if (Object.getPrototypeOf(item) == Placeholder.prototype) {
+			if (item.solved) {
+				for (var i = 0; i < that.placeholders.length; i++) {
+					if (that.placeholders[i] === item) {
+						that.placeholders.splice(i, 1);
+						break;
+					}
+				}
+				item = new Letter(item.char, item.paper, item.pos);
+			}
+		}
+		item._render();
+	})
 }
 
 
