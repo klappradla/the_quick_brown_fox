@@ -1,60 +1,57 @@
-Word = function (text, placeholder, page) {
+Word = function (text, gaps, page) {
+	this.pos = {};
+	this.pos.x = 100;
+	this.pos.y = 200;
 	this.page = page;
-	this.placeholder = this._encodePlaceholder(text, placeholder);
-	this.text = this._encodeWhitespace(text);
-	this.elements = [];
+	this.gapIndices = this._encodeGaps(text, gaps);
+	this.text = this._encodeText(text);
+	this.components = [];
 }
 
-Word.prototype.WHITESPACE = "\u00a0";
-
-Word.prototype._encodeWhitespace = function (text) {
-	return text.replace(" ", this.WHITESPACE);
-}
-
-Word.prototype._encodePlaceholder = function (text, chars) {
+Word.prototype._encodeGaps = function (text, gaps) {
 	var out = [];
 	var index;
-	chars.forEach(function (char) {
+	gaps.forEach( function (char) {
 		index = text.indexOf(char);
-		if (index > -1 ) {
+		if (index > -1) {
 			out.push(index);
 		}
 	});
 	return out;
 }
 
+Word.prototype._encodeText = function (text) {
+	var whitespace = "\u00a0";
+	return text.replace(" ", whitespace);
+}
+
 Word.prototype.render = function () {
-	var pos = {};
-	pos.x = 100;
-	pos.y = 200;
-	var char;
 	var component;
 
 	for (var i = 0; i < this.text.length; i++) {
-		char = this.text.charAt(i);
-		if (this.placeholder.indexOf(i) > -1) {
+		if (this.gapIndices.indexOf(i) > -1) {
 			component = new Placeholder(i, this);
-			component.render(pos);
-			component.renderItem(pos);
+			component.render(this.pos);
+			component.renderItems(this.pos);
 		} else {
-			component = new Letter(char, this.page);
-			component.render(pos);
+			component = new Letter(this.text[i], this.page);
+			component.render(this.pos);
 		}
-		this.elements.push(component);
-		component.render(pos);
-		pos.x += component.elements.getBBox().width;
+		this.components.push(component);
+		this.pos.x += component.elements.getBBox().width;
 	}
 }
 
+
+// todo: improve (ontop, etc)
 Word.prototype.refresh = function (index) {
-	this.elements[index] = new Letter(this.text.charAt(index), this.page);
-	var pos = {};
-	pos.x = 100;
-	pos.y = 200;
-	this.elements.forEach(function (element) {
-		element.elements.remove();
-		element.render(pos);
-		pos.x += element.elements.getBBox().width;
+	this.components[index] = new Letter(this.text[index], this.page);
+	this.pos.x = 100;
+	this.pos.y = 200;
+	this.components.forEach(function (component) {
+		component.elements.remove();
+		component.render(this.pos);
+		this.pos.x += component.elements.getBBox().width;
 	});
 
 }

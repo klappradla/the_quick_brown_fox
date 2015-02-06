@@ -13,7 +13,7 @@ Placeholder.prototype.render = function (pos) {
 			.attr({fill: this.page.baseColor, stroke: 'none', opacity: 0.1}));
 }
 
-Placeholder.prototype.renderItem = function (pos) {
+Placeholder.prototype.renderItems = function (pos) {
 	var char = this.parent.text.charAt(this.index);
 	this.item = new Item(char, this);
 	this.item.render(pos);

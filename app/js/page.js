@@ -1,4 +1,7 @@
 Page = function () {
+	this.pos = {};
+	this.pos.x;
+	this.pos.y;
 	this.width = 800;
 	this.height = 400;
 	this.fontSize = 80;
