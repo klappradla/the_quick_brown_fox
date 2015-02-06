@@ -1,8 +1,13 @@
-var app = {
-	
-	init: function () {
-		var game = new Game();
-		game.init();
+var app = (function () {
+	return {
+		init: function () {
+			var game = new Game();
+			var text = "quick fox";
+			var placeholder = ["i", "k"];
+			game.init(text, placeholder);
+		}
+	}
+})();
 
 		//var whitespace = "\u00a0";
 		//var word = new Word("quick fox", game.paper);
@@ -19,5 +24,3 @@ var app = {
 		// 	x += 70;
 		// 	y += 30;
 		// })
-	}
-}

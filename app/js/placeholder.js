@@ -1,16 +1,16 @@
 Placeholder = function (index, parent) {
 	this.parent = parent;
-	this.paper = parent.paper;
+	this.page = parent.page;
 	this.index = index;
-	this.elements = this.paper.set();
+	this.elements = this.page.paper.set();
 	//this.item;
 }
 
 Placeholder.prototype.render = function (pos) {
-	this.elements.push(this.paper.circle(pos.x + 30, pos.y, 30)
-		.attr({fill: 'none', stroke: 'cyan'}));
-	this.elements.push(this.paper.circle(pos.x + 30, pos.y, 30)
-			.attr({fill: 'cyan', stroke: 'none', opacity: 0.1}));
+	this.elements.push(this.page.paper.circle(pos.x + 30, pos.y, 30)
+		.attr({fill: 'none', stroke: this.page.baseColor}));
+	this.elements.push(this.page.paper.circle(pos.x + 30, pos.y, 30)
+			.attr({fill: this.page.baseColor, stroke: 'none', opacity: 0.1}));
 }
 
 Placeholder.prototype.renderItem = function (pos) {

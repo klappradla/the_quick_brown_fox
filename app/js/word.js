@@ -1,10 +1,8 @@
-Word = function (text, placeholder, paper) {
-	this.paper = paper;
+Word = function (text, placeholder, page) {
+	this.page = page;
 	this.placeholder = this._encodePlaceholder(text, placeholder);
 	this.text = this._encodeWhitespace(text);
 	this.elements = [];
-
-	this._render();
 }
 
 Word.prototype.WHITESPACE = "\u00a0";
@@ -25,7 +23,7 @@ Word.prototype._encodePlaceholder = function (text, chars) {
 	return out;
 }
 
-Word.prototype._render = function () {
+Word.prototype.render = function () {
 	var pos = {};
 	pos.x = 100;
 	pos.y = 200;
@@ -39,7 +37,7 @@ Word.prototype._render = function () {
 			component.render(pos);
 			component.renderItem(pos);
 		} else {
-			component = new Letter(char, this.paper);
+			component = new Letter(char, this.page);
 			component.render(pos);
 		}
 		this.elements.push(component);
@@ -49,7 +47,7 @@ Word.prototype._render = function () {
 }
 
 Word.prototype.refresh = function (index) {
-	this.elements[index] = new Letter(this.text.charAt(index), this.paper);
+	this.elements[index] = new Letter(this.text.charAt(index), this.page);
 	var pos = {};
 	pos.x = 100;
 	pos.y = 200;

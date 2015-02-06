@@ -2,8 +2,8 @@ Item = function (char, parent) {
 	this.char = char;
 	this.parent = parent;
 	//this.font = font;
-	this.paper = parent.paper;
-	this.elements = this.paper.set();
+	this.page = parent.page;
+	this.elements = this.page.paper.set();
 	//placeholder = placeholder || false;
 }
 
@@ -12,10 +12,10 @@ Item.prototype.render = function (pos) {
 	iPos.x = pos.x;
 	iPos.y = pos.y;
 	iPos.y += 100;
-	this.elements.push(this.paper.circle(iPos.x + 30, iPos.y, 30)
-			.attr({fill: 'cyan', stroke: 'none'}));
-	this.elements.push(this.paper.text(iPos.x + 30, iPos.y, this.char)
-		.attr({'font-size': 60}));
+	this.elements.push(this.page.paper.circle(iPos.x + 30, iPos.y, 30)
+			.attr({fill: this.page.baseColor, stroke: 'none'}));
+	this.elements.push(this.page.paper.text(iPos.x + 30, iPos.y, this.char)
+		.attr({'font-size': this.page.fontSize / 2}));
 
 	this._makeDraggable();
 }
