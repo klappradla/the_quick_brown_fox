@@ -1,11 +1,8 @@
 Word = function (text, gaps, page) {
-	this.pos = {};
-	this.pos.x = 100;
-	this.pos.y = 200;
 	this.page = page;
 	this.gapIndices = this._encodeGaps(text, gaps);
 	this.text = this._encodeText(text);
-	this.components = [];
+	this.components = this._init();
 }
 
 Word.prototype._encodeGaps = function (text, gaps) {
@@ -25,33 +22,32 @@ Word.prototype._encodeText = function (text) {
 	return text.replace(" ", whitespace);
 }
 
-Word.prototype.render = function () {
-	var component;
-
+Word.prototype._init = function () {
+	var out = [];
 	for (var i = 0; i < this.text.length; i++) {
 		if (this.gapIndices.indexOf(i) > -1) {
-			component = new Placeholder(i, this);
-			component.render(this.pos);
-			component.renderItems(this.pos);
+			out.push(new Gap(i, this));
 		} else {
-			component = new Letter(this.text[i], this.page);
-			component.render(this.pos);
+			out.push(new Letter(this.text[i], this.page));
 		}
-		this.components.push(component);
-		this.pos.x += component.elements.getBBox().width;
 	}
+	return out;
+}
+
+Word.prototype.render = function () {
+	var pos = {};
+	pos.x = 100;
+	pos.y = 200;
+
+	this.components.forEach(function(component) {
+		component.render(pos);
+		pos.x += component.elements.getBBox().width;
+	});
 }
 
 
 // todo: improve (ontop, etc)
 Word.prototype.refresh = function (index) {
 	this.components[index] = new Letter(this.text[index], this.page);
-	this.pos.x = 100;
-	this.pos.y = 200;
-	this.components.forEach(function (component) {
-		component.elements.remove();
-		component.render(this.pos);
-		this.pos.x += component.elements.getBBox().width;
-	});
-
+	this.render();
 }

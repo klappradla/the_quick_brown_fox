@@ -3,9 +3,9 @@ Game = function () {
 	this.word;
 }
 
-Game.prototype.init = function (text, placeholder) {
+Game.prototype.init = function (text, gap) {
 	this.page.init();
-	this.word = new Word(text, placeholder, this.page);
+	this.word = new Word(text, gap, this.page);
 	this.word.render();
 }
 
