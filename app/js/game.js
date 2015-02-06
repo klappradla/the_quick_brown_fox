@@ -7,6 +7,7 @@ Game.prototype.init = function (text, gap) {
 	this.page.init();
 	this.word = new Word(text, gap, this.page);
 	this.word.render();
+	// todo: add game loop with end
 }
 
 // Game.prototype._initConfig = function () {

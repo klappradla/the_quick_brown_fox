@@ -18,6 +18,7 @@ Gap.prototype._renderItems = function (pos) {
 		this.item = new Item(char, this);
 		this.item.render(pos);
 	}
+	this.item.elements.toFront();
 }
 
 Gap.prototype._drawGap = function (pos) {
